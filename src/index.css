@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 60 71% 96%;
+    --foreground: 0 0% 8%;
+    --secondary: 30 26% 86%;
+    --border: 30 25% 86%;
+    --ring: 207 15% 56%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-decor-areia font-decor text-decor-leite antialiased;
+  }
+}
