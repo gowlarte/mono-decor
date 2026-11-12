@@ -10,7 +10,7 @@
  *   DECOR; fotos de ambiente e o detalhe da mesa foram extraídos do PDF.
  *   Ambos são baixa resolução e, em parte, imagens de referência: trocar por
  *   fotos próprias antes de publicar.
- * - Diâmetro/altura de Régia e OVNI e as medidas dos móveis de bambu ainda
+ * - Diâmetro/altura de Régia e Ovni e as medidas dos móveis de bambu ainda
  *   não chegaram: aparecem como "em breve".
  */
 
@@ -126,30 +126,6 @@ export const produtos: Produto[] = [
     imagens: { ambiente: regiaAmbiente, produto: [regiaProduto] },
   },
   {
-    id: "ovni",
-    familia: "luminae",
-    nomeCurto: "OVNI",
-    nome: "Luminária OVNI",
-    material: "Fibra de poliéster",
-    descricao: [
-      "Já chegou o disco voador? Uma forma redonda aberta com luz que se expande por todo o ambiente. Perfeito para combinar diferentes tamanhos em espaços que exigem dinamismo de formas.",
-      "Além da decoração, iluminação e facilidade de manuseio, estas luminárias também fazem o papel de tratamento acústico: a forma aberta diminui o eco em salas muito grandes.",
-    ],
-    cores: [
-      { nome: "Púrpura", hex: "#683079" },
-      { nome: "Caramelo", hex: "#9F9081" },
-      { nome: "Lotus", hex: "#FBB5B6" },
-    ],
-    preco: 890,
-    unidade: "unidade",
-    especificacoes: [
-      { rotulo: "Tipo", valor: "Pendente com tratamento acústico" },
-      { rotulo: "Diâmetro e altura", valor: EM_BREVE },
-      { rotulo: "Feltro", valor: "PET 5 a 24 mm" },
-    ],
-    imagens: { ambiente: ovniAmbiente, produto: [ovniProdutoA, ovniProdutoB] },
-  },
-  {
     id: "kobo",
     familia: "luminae",
     nomeCurto: "Kobo",
@@ -171,6 +147,30 @@ export const produtos: Produto[] = [
       { rotulo: "Iluminação", valor: "Fita de LED integrada" },
     ],
     imagens: { ambiente: koboAmbiente, produto: [koboProduto] },
+  },
+  {
+    id: "ovni",
+    familia: "luminae",
+    nomeCurto: "Ovni",
+    nome: "Luminária Ovni",
+    material: "Fibra de poliéster",
+    descricao: [
+      "Já chegou o disco voador? Uma forma redonda aberta com luz que se expande por todo o ambiente. Perfeito para combinar diferentes tamanhos em espaços que exigem dinamismo de formas.",
+      "Além da decoração, iluminação e facilidade de manuseio, estas luminárias também fazem o papel de tratamento acústico: a forma aberta diminui o eco em salas muito grandes.",
+    ],
+    cores: [
+      { nome: "Púrpura", hex: "#683079" },
+      { nome: "Caramelo", hex: "#9F9081" },
+      { nome: "Lotus", hex: "#FBB5B6" },
+    ],
+    preco: 890,
+    unidade: "unidade",
+    especificacoes: [
+      { rotulo: "Tipo", valor: "Pendente com tratamento acústico" },
+      { rotulo: "Diâmetro e altura", valor: EM_BREVE },
+      { rotulo: "Feltro", valor: "PET 5 a 24 mm" },
+    ],
+    imagens: { ambiente: ovniAmbiente, produto: [ovniProdutoA, ovniProdutoB] },
   },
   {
     id: "angula",
@@ -198,7 +198,7 @@ export const produtos: Produto[] = [
   {
     id: "mesa-elevante",
     familia: "objecta",
-    nomeCurto: "Mesa Elevante",
+    nomeCurto: "Elevante",
     nome: "Mesa Elevante",
     material: "Bambu",
     descricao: [

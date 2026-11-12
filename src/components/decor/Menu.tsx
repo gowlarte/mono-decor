@@ -100,7 +100,7 @@ export function MenuDecor({ aberto, onAberto }: { aberto: boolean; onAberto: (v:
                     ))}
                   </dl>
                   <p className="mt-3 text-[12px] opacity-70">
-                    Vale para Régia, OVNI e Kobo. Diâmetro e altura de Régia e OVNI e medidas dos móveis de bambu em breve.
+                    Vale para Régia, Kobo e Ovni. Diâmetro e altura de Régia e Ovni e medidas dos móveis de bambu em breve.
                   </p>
                 </section>
 

@@ -1,6 +1,7 @@
 /**
  * Fileira de desenhos dos produtos. É a mesma peça nas duas telas: na inicial
- * fica grande no meio; na de produto encolhe para a barra de baixo, sem o
+ * fica grande no meio (no celular, uma faixa que corre para os lados e
+ * encaixa em cada peça); na de produto encolhe para a barra de baixo, sem o
  * produto aberto. A troca anima com `layout` do framer-motion.
  */
 
@@ -22,7 +23,7 @@ function medidas(id: ProdutoId): CSSProperties {
 }
 
 const TAMANHO_INICIO =
-  "w-[calc(var(--w)*2.3vw)] md:w-[calc(var(--w)*1.5vw)] lg:w-[min(calc(var(--w)*1vw),calc(var(--w)*1.75vh))]";
+  "w-[calc(var(--w)*5vw)] md:w-[calc(var(--w)*3vw)] lg:w-[min(calc(var(--w)*1vw),calc(var(--w)*1.75vh))]";
 const TAMANHO_BARRA =
   "w-[calc(var(--w)*1.25vw)] md:w-[calc(var(--w)*0.8vw)] lg:w-[min(calc(var(--w)*0.62vw),calc(var(--w)*1.1vh))]";
 const CIRCULO = "w-[min(calc(var(--c)*1vw),calc(var(--c)*1.75vh))]";
@@ -34,7 +35,7 @@ export function NavIcones({ atual }: { atual: ProdutoId | null }) {
     <div
       className={cn(
         "pointer-events-none fixed inset-0 z-20 flex",
-        inicio ? "items-center justify-center pb-[16vh] lg:pb-[5vh]" : "items-end justify-start",
+        inicio ? "items-center justify-center pb-[4vh] lg:pb-[5vh]" : "items-end justify-start",
       )}
     >
       <motion.nav
@@ -46,7 +47,7 @@ export function NavIcones({ atual }: { atual: ProdutoId | null }) {
         className={cn(
           "pointer-events-auto relative",
           inicio
-            ? "w-full px-5 lg:px-[2.2vw]"
+            ? "w-full lg:px-[2.2vw]"
             : "w-full bg-[var(--bg)] px-2 pb-[max(10px,env(safe-area-inset-bottom))] pt-3 transition-colors duration-700 lg:mb-[3vh] lg:ml-[2.2vw] lg:w-[57vw] lg:bg-transparent lg:p-0",
         )}
       >
@@ -64,8 +65,13 @@ export function NavIcones({ atual }: { atual: ProdutoId | null }) {
 
         <motion.div
           layout
+          layoutScroll
           transition={{ layout: TRANSICAO_LAYOUT }}
-          className={cn("flex", inicio ? "flex-col gap-10 lg:flex-row lg:gap-0" : "flex-row")}
+          className={cn(
+            "flex flex-row",
+            inicio &&
+              "snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] lg:snap-none lg:overflow-visible [&::-webkit-scrollbar]:hidden",
+          )}
         >
           {FAMILIAS.map((familia) => {
             const itens = produtos.filter((p) => p.familia === familia && p.id !== atual);
@@ -74,8 +80,9 @@ export function NavIcones({ atual }: { atual: ProdutoId | null }) {
                 key={familia}
                 layout
                 transition={{ layout: TRANSICAO_LAYOUT }}
-                style={{ flexGrow: itens.length, flexBasis: 0 }}
-                className="flex flex-col"
+                // Na barra, cada família ocupa espaço proporcional ao número de peças.
+                style={inicio ? undefined : { flexGrow: itens.length, flexBasis: 0 }}
+                className={cn("flex flex-col", inicio && "flex-none lg:flex-1 lg:basis-0")}
               >
                 <motion.ul layout transition={{ layout: TRANSICAO_LAYOUT }} className="flex flex-1 items-center">
                   <AnimatePresence mode="popLayout" initial={false}>
@@ -87,13 +94,21 @@ export function NavIcones({ atual }: { atual: ProdutoId | null }) {
                         initial={{ opacity: 0, scale: 0.6 }}
                         animate={{ opacity: 1, scale: 1, transition: { duration: 0.6, ease: EASE, delay: 0.3 } }}
                         exit={{ opacity: 0, scale: 1.5, transition: { duration: 0.4, ease: "easeIn" } }}
-                        className="flex flex-1 basis-0 justify-center"
+                        className={cn(
+                          "flex justify-center",
+                          inicio
+                            ? "w-[62vw] flex-none snap-start md:w-[40vw] lg:w-auto lg:flex-1 lg:basis-0"
+                            : "flex-1 basis-0",
+                        )}
                         style={medidas(p.id)}
                       >
                         <Link
                           to={`/${p.id}`}
                           aria-label={p.nome}
-                          className="group relative flex flex-col items-center gap-3 rounded-sm px-1 py-1 focus-visible:outline-none"
+                          className={cn(
+                            "group relative flex flex-col items-center rounded-sm px-1 py-1 focus-visible:outline-none",
+                            inicio ? "gap-[7vh] lg:gap-3" : "gap-3",
+                          )}
                         >
                           {/* Círculo e nome: destaque da tela inicial (desktop). */}
                           {inicio && (
@@ -118,20 +133,26 @@ export function NavIcones({ atual }: { atual: ProdutoId | null }) {
                             {p.nomeCurto}
                           </span>
 
-                          <motion.span
-                            layout
-                            transition={{ layout: TRANSICAO_LAYOUT }}
-                            className={cn(
-                              "block transition-opacity",
-                              inicio ? TAMANHO_INICIO : cn(TAMANHO_BARRA, "opacity-85 group-hover:opacity-100"),
-                            )}
-                          >
-                            <IconeProduto id={p.id} />
-                          </motion.span>
-
+                          {/* Celular: nome sempre visível, em cima do desenho. */}
                           {inicio && (
-                            <span className="font-decor text-[12px] font-light tracking-[0.06em] lg:hidden">{p.nomeCurto}</span>
+                            <span className="whitespace-nowrap font-decor text-[7.4vw] font-extralight leading-none tracking-[-0.02em] [font-stretch:125%] md:text-[4.4vw] lg:hidden">
+                              {p.nomeCurto}
+                            </span>
                           )}
+
+                          {/* Caixa de altura fixa no celular: os desenhos ficam centrados na mesma linha. */}
+                          <span className={inicio ? "flex h-[min(68vw,34vh)] items-center md:h-[min(42vw,34vh)] lg:h-auto" : "contents"}>
+                            <motion.span
+                              layout
+                              transition={{ layout: TRANSICAO_LAYOUT }}
+                              className={cn(
+                                "block transition-opacity",
+                                inicio ? TAMANHO_INICIO : cn(TAMANHO_BARRA, "opacity-85 group-hover:opacity-100"),
+                              )}
+                            >
+                              <IconeProduto id={p.id} />
+                            </motion.span>
+                          </span>
                         </Link>
                       </motion.li>
                     ))}
